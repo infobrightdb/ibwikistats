@@ -13,8 +13,8 @@ $| = 1;
 
 my $DEBUG    = 0;
 my $data     = "./data";
-my $database = "wiki1";
-my $host     = "10.20.30.81";
+my $database = "wikistats";
+my $host     = "127.0.0.1";
 my $port     = "54321";
 my $user     = "wiki";
 my $password = "pedia";
