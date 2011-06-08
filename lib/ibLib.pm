@@ -22,6 +22,9 @@ my $year     = 2011;
 my $month    = 5;
 my $day      = 25;
 my $hour     = 20;
+my $min      = 0;
+my $sec      = 0;
+my $staturl  = "http://dammit.lt/wikistats/";
 
 GetOptions(
     'data=s'     => \$data,
@@ -34,6 +37,9 @@ GetOptions(
     'month=s'    => \$month,
     'day=s'      => \$day,
     'hour=s'     => \$hour,
+    'min=s'      => \$min,
+    'sec=s'      => \$sec,
+    'staturl=s'  => \$staturl,
 
 );
 
@@ -43,12 +49,15 @@ sub makefilename {
     if ( $month < 10 ) { $month = "0" . $month }
     if ( $day < 10 )   { $day   = "0" . $day }
     if ( $hour < 10 )  { $hour  = "0" . $hour }
-    $filename .= $year . $month . $day . "-" . $hour . "0000";
+    if ( $min < 10 )   { $hour  = "0" . $hour }
+    if ( $sec < 10 )   { $hour  = "0" . $hour }
+    $filename .= $year . $month . $day . "-" . $hour . $min . $sec;
     return $filename . $suffix;
 }
 
 sub makesummarytime {
-    my $stime = $year . "-" . $month . "-" . $day . " " . $hour . ":00:00";
+    my $stime =
+      $year . "-" . $month . "-" . $day . " " . $hour . ":" . $min . ":" . $sec;
     return $stime;
 }
 
@@ -56,7 +65,10 @@ sub makesummarytime {
 data source URL example:
 http://dammit.lt/wikistats/pagecounts-20110601-200000.gz
 
+last second may be 01
+
 second set is a rollup query on above, subset of above data
+so not downloaded
 http://dammit.lt/wikistats/projectcounts-20110531-210000
 
 =cut
@@ -69,17 +81,16 @@ sub getdata {
     open( my $mydata, '>', "./$outfile" );
     $curl->setopt( CURLOPT_URL, $url );
 
-    #$curl->setopt( CURLOPT_READDATA, \$mydata );
     $curl->setopt( CURLOPT_WRITEDATA, \$mydata );
     my $retcode = $curl->perform();
     if ( $retcode == 0 ) {
 
-        #print Dumper($mydata);
+        print Dumper($mydata) if $DEBUG > 2;
         print "#file retreived\n\n";
 
     }
     else {
-        die "error on curl "
+        die "# error on curl "
           . $curl->strerror($retcode) . " "
           . $curl->errbuf . "\n";
     }
@@ -88,7 +99,7 @@ sub getdata {
 
 sub makeurl {
     my ($filename) = @_;
-    my $url = "http://dammit.lt/wikistats/";
+    my $url = $staturl;
     $url .= $filename;
     return $url;
 }

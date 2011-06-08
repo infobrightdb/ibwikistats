@@ -7,7 +7,7 @@
 ) ENGINE=BRIGHTHOUSE;
 
  CREATE TABLE `types` (
-  `c1` varchar(5) DEFAULT NULL,
+  `wikicode` varchar(5) DEFAULT NULL,
   `wikitype` varchar(128) DEFAULT NULL
 ) ENGINE=BRIGHTHOUSE;
 

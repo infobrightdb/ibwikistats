@@ -30,7 +30,7 @@ SELECT left(projectcode, position("." IN projectcode) - 1) AS 'lang',
           ON languagecode =
                 left(projectcode, position("." IN projectcode) - 1)
        LEFT JOIN types
-          ON c1 =
+          ON wikicode =
                 right(projectcode,
                       length(projectcode) - position("." IN projectcode))
 ORDER BY projectcode, summarytime, pageviews DESC;
