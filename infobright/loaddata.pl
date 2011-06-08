@@ -8,7 +8,6 @@ use ibLib;
 # unzip
 # call loaddata
 
-my $datadir     = '/qa/datasets/wikistats/working/input/';
 my $filename    = makefilename();
 my $summarytime = makesummarytime();
 
@@ -18,7 +17,7 @@ use wiki1;
 
 set \@bh_dataformat='mysql';
 
-load data infile '$datadir/$filename' into table pagecounts 
+load data infile '$statdir/$filename' into table pagecounts 
 fields terminated by ' '
 (
  projectcode ,

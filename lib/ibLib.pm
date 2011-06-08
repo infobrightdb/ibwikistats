@@ -25,6 +25,7 @@ my $hour     = 20;
 my $min      = 0;
 my $sec      = 0;
 my $staturl  = "http://dammit.lt/wikistats/";
+my $statdir  = '/wikistats/working/input/';
 
 GetOptions(
     'data=s'     => \$data,
@@ -40,6 +41,7 @@ GetOptions(
     'min=s'      => \$min,
     'sec=s'      => \$sec,
     'staturl=s'  => \$staturl,
+    'statdir=s'  => \$statdir,
 
 );
 
