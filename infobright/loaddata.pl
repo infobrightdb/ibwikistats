@@ -13,7 +13,7 @@ my $summarytime = makesummarytime();
 
 my $QUERY = <<SQL;
 
-use wiki1;
+use $database;
 
 set \@bh_dataformat='mysql';
 
