@@ -38,18 +38,16 @@
 ### OTHER DEALINGS IN THE SOFTWARE.                     ###
 ###########################################################
 
-
-
 use warnings;
 use strict;
 
 use Getopt::Long;
 use Data::Dumper;
-use WWW::Curl::Easy;
+use LWP::Simple
 
 ## defaults
 
-$| = 1;
+  $| = 1;
 
 my $DEBUG    = 0;
 my $data     = "./data";
@@ -91,8 +89,8 @@ sub makefilename {
     if ( $month < 10 ) { $month = "0" . $month }
     if ( $day < 10 )   { $day   = "0" . $day }
     if ( $hour < 10 )  { $hour  = "0" . $hour }
-    if ( $min < 10 )   { $hour  = "0" . $hour }
-    if ( $sec < 10 )   { $hour  = "0" . $hour }
+    if ( $min < 10 )   { $min   = "0" . $min }
+    if ( $sec < 10 )   { $sec   = "0" . $sec }
     $filename .= $year . $month . $day . "-" . $hour . $min . $sec;
     return $filename . $suffix;
 }
@@ -116,27 +114,9 @@ http://dammit.lt/wikistats/projectcounts-20110531-210000
 =cut
 
 sub getdata {
-    ## could use a better module, using module installed on current machine
     my ( $url, $outfile ) = @_;
-    my $curl = WWW::Curl::Easy->new;
-
     open( my $mydata, '>', "./$outfile" );
-    $curl->setopt( CURLOPT_URL, $url );
-
-    $curl->setopt( CURLOPT_WRITEDATA, \$mydata );
-    my $retcode = $curl->perform();
-    if ( $retcode == 0 ) {
-
-        print Dumper($mydata) if $DEBUG > 2;
-        print "#file retreived\n\n";
-
-    }
-    else {
-        die "# error on curl "
-          . $curl->strerror($retcode) . " "
-          . $curl->errbuf . "\n";
-    }
-
+    my $content = getstore( $url, $outfile );
 }
 
 sub makeurl {
